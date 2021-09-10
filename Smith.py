@@ -1,15 +1,16 @@
 from tkinter import *
 def motion(event):
-    x, y = event.x, event.y
-    x=x/402
-    y=y/398
-    print('{}, {}'.format(x, y))
+    canvas.create_rectangle(150,680,450,700,fill='#fff',disabledoutline='#fff')
+    x=event.x/402
+    y=event.y/398
+    canvas.create_text(300,690,text=f'x={x} y={y}')
+    canvas.create_line(event.x,event.y+293,event.x,event.y-223,width=2)
+    
 
 root = Tk()
 root.bind('<Button-1>', motion)
 canvas = Canvas(root, width=650, height=700)
 canvas.pack()
-img = PhotoImage(file='SmithChart-3.png') #transparent image
-background = Label(image = img)
-background.place(x = 0, y = 0, relwidth = 1, relheight = 1)
+img = PhotoImage(file='SmithChart-1.png') #transparent image
+canvas.create_image(325,345,image=img)
 root.mainloop()
