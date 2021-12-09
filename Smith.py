@@ -1,36 +1,77 @@
-from tkinter import *
-def motion(event):
-    canvas.delete("all")
-    canvas.create_image(325,345,image=img)
-    canvas.create_rectangle(150,680,450,700,fill='#fff',disabledoutline='#fff')
-    x=event.x/402
-    y=event.y/398
-    canvas.create_text(300,690,text=f'x={x} y={y}')
-    canvas.create_oval(event.x+3,event.y+3,event.x-3,event.y-3)
-    if  y>0.3 and y<0.4:
-        canvas.create_line(event.x,event.y+508,event.x,event.y-37)
-    elif  y>0.4 and y<0.5:
-        canvas.create_line(event.x,event.y+460,event.x,event.y-80)
-    elif  y>0.5 and y<0.6:
-        canvas.create_line(event.x,event.y+410,event.x,event.y-100)
-    elif  y>0.6 and y<0.7:
-        canvas.create_line(event.x,event.y+390,event.x,event.y-150) 
-    elif  y>0.7 and y<0.8:
-        canvas.create_line(event.x,event.y+340,event.x,event.y-180)
-    elif  y>0.8 and y<0.9:
-        canvas.create_line(event.x,event.y+310,event.x,event.y-240)   
-    elif  y>0.9 and y<1.0:
-        canvas.create_line(event.x,event.y+270,event.x,event.y-260)    
-    elif  y>1.0 and y<1.1:
-        canvas.create_line(event.x,event.y+227,event.x,event.y-300)
-    elif  y>1.1 and y<1.2:
-        canvas.create_line(event.x,event.y+190,event.x,event.y-350)
-    elif  y>1.2 and y<1.32:
-        canvas.create_line(event.x,event.y+140,event.x,event.y-410)
-root = Tk()
-root.bind('<Button-1>', motion)
-canvas = Canvas(root, width=650, height=700)
-canvas.pack()
-img = PhotoImage(file='SmithChart-1.png') #transparent image
-canvas.create_image(325,345,image=img)
-root.mainloop()
+import numpy  as  np
+import  matplotlib.pyplot  as  pp
+
+class smith:
+    def  __init__ (self, Z0 = 50 ):
+        pp.ioff()
+        self.Z0 = Z0
+        self.fig = pp.figure(figsize=( 8.0 , 8.0 ))
+        pp.axes().set_axis_off()
+        self.drawGrid()
+
+    def show(self): 
+        pp.figure(self.fig.number)
+        pp.show()
+
+    def save(self,filename ):
+        self.fig.savefig('smithchart.pdf')
+
+    def  drawZList ( self , l , c = 'b' ):
+        pp.figure(self.fig.number)
+        xlst  = [ self.z2gamma( z ).real  for  z  in  l ]
+        ylst  = [ self.z2gamma( z ).imag  for  z  in  l ]
+        pp.plot( xlst , ylst , c )
+        pp.draw()
+
+    def  drawXCircle ( self , x , npts = 200 ):
+
+        zlst = [ x ] + [  complex( x , z ) for  z  in  np.logspace( 0 , 6 , npts )]
+        self.drawZList ( zlst , 'k' )
+        zlst  = [ x ] + [ complex( x , - z ) for  z  in  np.logspace( 0 , 6 , npts )]
+        self.drawZList( zlst , 'k' )
+
+    def  drawYCircle ( self , y , npts = 200 ):
+
+        zlst  = [ complex( 0 , y )] + [  complex( z , y ) for  z  in  np.logspace( 0 , 6 , npts )]
+        self.drawZList( zlst , 'k' )
+
+    def markZ( self , z , text = None , c = 'b' , size = 1 ):
+
+        pp.figure(self.fig.number)
+        g  =  self.z2gamma( z )
+        pp.plot( g.real , g.imag , 'o' + c )
+        if text:
+            pp.text( g.real + 0.02 , g.imag + 0.02 , text , color = c , weight = 'demi' )
+        pp.draw()
+ 
+    def  drawGrid (self):
+      
+        "Dibuja la cuadrícula de Smith Chart."
+        
+        self.drawXCircle(0)
+        self.drawXCircle (self.Z0/5 )
+        self.drawXCircle (self.Z0/2 )
+        self.drawXCircle (self.Z0)
+        self.drawXCircle (self.Z0*2)
+        self.drawXCircle (self.Z0*5)
+        self.drawYCircle ( 0 )
+        self.drawYCircle (self.Z0/5)
+        self.drawYCircle (-self.Z0/5)
+        self.drawYCircle (self.Z0/2)
+        self.drawYCircle (-self.Z0/2)
+        self.drawYCircle (self.Z0)
+        self.drawYCircle (-self.Z0)
+        self.drawYCircle (self.Z0*2)
+        self.drawYCircle (-self.Z0*2)
+        self.drawYCircle (self.Z0*5)
+        self.drawYCircle (-self.Z0*5)
+
+    def  z2gamma ( self , zl ):
+        return  complex ( zl - self.Z0 ) / ( zl + self.Z0 )
+
+if  __name__  ==  '__main__' :
+    smith=smith()
+    smith.markZ( 20 + 30j )
+    smith.markZ( 130 - 60j , text = 'Z1' , c = 'r' )
+    smith.drawZList([ 0 , 50j , 10000j , - 50j , 0 ])
+    smith.show()
