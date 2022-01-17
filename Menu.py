@@ -6,6 +6,7 @@ from tkinter.ttk import *
 from openpyxl import load_workbook
 from math import atan, log10, tanh
 import  smith
+import os
 
 root= tk.Tk()
 root.title('Proyecto Radiocomunicaciones')
@@ -39,6 +40,9 @@ entry12 = tk.Entry (root)
 entry13 = tk.Entry (root) 
 entry14 = tk.Entry (root)
 entry15 = tk.Entry (root)  
+entry16 = tk.Entry (root)  
+entry17 = tk.Entry (root) 
+entry18 = tk.Entry (root)   
 def regreso ():
     mensaje = tk.messagebox.askquestion ('','¿Desea regresar al menu principal?',icon = 'info')
     if mensaje == 'yes':
@@ -188,9 +192,63 @@ def param ():
         canvas1.create_window(200, 160, window=button4)
         canvas1.create_window(200, 250, window=button2)
 def lsmith(): 
-    smith.markZ(25 + 10j , 'Z1' )
+    canvas1.delete("all")
+    canvas1.config(width=800,height=750)
+    label = tk.Label(root, text='Carta de Smith')
+    label.config(font=('helvetica', 14))
+    canvas1.create_window(400, 50, window=label)
+    print(canvas1.create_window(400, 200, window=entry16))
+    label1 = tk.Label(root, text= 'Introduzca la impedancia (Parte real)')
+    label1.config(font=('helvetica', 10))
+    canvas1.create_window(400, 250, window=label1)
+    print(canvas1.create_window(400, 300, window=entry17))
+    label2 = tk.Label(root, text= 'Introduzca la impedancia (Parte imaginaria)')
+    label2.config(font=('helvetica', 10))
+    canvas1.create_window(400, 350, window=label2)
+    print(canvas1.create_window(400, 400, window=entry18))
+    label3 = tk.Label(root, text= 'Introduzca la impedancia característica')
+    label3.config(font=('helvetica', 10))
+    canvas1.create_window(400, 450, window=label3)
+    button1 = tk.Button(text='Presione para procesar sus datos', command=lsmithop, bg='orange', fg='white', font=('helvetica', 9, 'bold'))
+    canvas1.create_window(400, 600, window=button1)
+    button2 = tk.Button (root, text='Regresar al menú principal',command=regreso,bg='red4',fg='white')
+    canvas1.create_window(600, 650, window=button2)
+    button3 = tk.Button (root, text='Regresar al menú de parametros',command=param,bg='ivory3',fg='white')
+    canvas1.create_window(200, 700, window=button3)
+def lsmithop():
+    canvas1.delete("all")
+    canvas1.config(width=800,height=850)
+    Zrel = float(entry16.get())
+    Zimg = float(entry17.get())
+    Zcarac = float(entry18.get())
+    a=complex(Zrel,Zimg)
+    smith.markZ(a , 'Z1' )
     smith.drawZList([ 0 , 50j , 1e6j , - 50j , 0 ])
     smith.save('smithchart.pdf')
+    os.system('smithchart.pdf')
+    canvas1.delete("all")
+    canvas1.config(width=800,height=750)
+    label = tk.Label(root, text='Carta de Smith')
+    label.config(font=('helvetica', 14))
+    canvas1.create_window(400, 50, window=label)
+    print(canvas1.create_window(400, 200, window=entry16))
+    label1 = tk.Label(root, text= 'Introduzca la impedancia (Parte real)')
+    label1.config(font=('helvetica', 10))
+    canvas1.create_window(400, 250, window=label1)
+    print(canvas1.create_window(400, 300, window=entry17))
+    label2 = tk.Label(root, text= 'Introduzca la impedancia (Parte imaginaria)')
+    label2.config(font=('helvetica', 10))
+    canvas1.create_window(400, 350, window=label2)
+    print(canvas1.create_window(400, 400, window=entry18))
+    label3 = tk.Label(root, text= 'Introduzca la impedancia característica')
+    label3.config(font=('helvetica', 10))
+    canvas1.create_window(400, 450, window=label3)
+    button1 = tk.Button(text='Presione para procesar sus datos', command=lsmithop, bg='orange', fg='white', font=('helvetica', 9, 'bold'))
+    canvas1.create_window(400, 600, window=button1)
+    button2 = tk.Button (root, text='Regresar al menú principal',command=regreso,bg='red4',fg='white')
+    canvas1.create_window(600, 650, window=button2)
+    button3 = tk.Button (root, text='Regresar al menú de parametros',command=param,bg='ivory3',fg='white')
+    canvas1.create_window(200, 700, window=button3)
 def opmenu ():   
     x1 = int(entry1.get())
     if x1==int(1):
@@ -234,9 +292,9 @@ def opparams():
 def opparams1():
     canvas1.delete("all")
     canvas1.config(width=800,height=850)
-    Za = complex(entry13.get())
-    Zb = complex(entry14.get())
-    Zc = complex(entry15.get())
+    Za = float(entry13.get())
+    Zb = float(entry14.get())
+    Zc = float(entry15.get())
     z11=Za+Zc
     z12=Zc
     z21=Zc
@@ -368,9 +426,9 @@ def opparamz():
 def opparamz1():
     canvas1.delete("all")
     canvas1.config(width=800,height=850)
-    Za = complex(entry13.get())
-    Zb = complex(entry14.get())
-    Zc = complex(entry15.get())
+    Za = float(entry13.get())
+    Zb = float(entry14.get())
+    Zc = float(entry15.get())
     z11=Za+Zc
     z12=Zc
     z21=Zc
