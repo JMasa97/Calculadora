@@ -218,8 +218,8 @@ def lsmith():
 def lsmithop():
     canvas1.delete("all")
     canvas1.config(width=800,height=850)
-    Zrel = float(entry16.get())
-    Zimg = float(entry17.get())
+    Zrel = float(entry16.get())*50
+    Zimg = float(entry17.get())*50
     Zcarac = float(entry18.get())
     a=complex(Zrel,Zimg)/Zcarac
     smith.markZ(a , 'Z1' )
