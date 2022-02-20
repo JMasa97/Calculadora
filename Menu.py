@@ -312,9 +312,14 @@ def linkbudgop():
     gr = float(entry24.get())
     lr = float(entry25.get())
     po = pt+gt-lt-lfs-lm+gr-lr 
-    labell = tk.Label(root, text= ('P_out= ',po,'dbm'))
-    labell.config(font=('helvetica', 14))
-    canvas1.create_window(400, 620, window=labell)
+    if po<0:
+        labell = tk.Label(root, text= ('Distancia ineficiente'))
+        labell.config(font=('helvetica', 14))
+        canvas1.create_window(400, 620, window=labell)   
+    elif po>0: 
+        labell = tk.Label(root, text= ('P_out= ',po,'dbm'))
+        labell.config(font=('helvetica', 14))
+        canvas1.create_window(400, 620, window=labell)
     label = tk.Label(root, text='Link Budget')
     label.config(font=('helvetica', 14))
     canvas1.create_window(400, 50, window=label)
