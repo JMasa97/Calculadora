@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 from tkinter import messagebox
 from tkinter.ttk import *
 from openpyxl import load_workbook
-from math import atan, log10, tanh
+from math import atan, log10, pi, tanh
 import  smith
 import os
 
@@ -50,6 +50,9 @@ entry22 = tk.Entry (root)
 entry23 = tk.Entry (root)   
 entry24 = tk.Entry (root)
 entry25 = tk.Entry (root)   
+entry26 = tk.Entry (root)   
+entry27 = tk.Entry (root)   
+entry28 = tk.Entry (root)   
 def regreso ():
     mensaje = tk.messagebox.askquestion ('','¿Desea regresar al menu principal?',icon = 'info')
     if mensaje == 'yes':
@@ -298,9 +301,11 @@ def linkbudg():
     label7.config(font=('helvetica', 10))
     canvas1.create_window(400, 600, window=label7)          
     button1 = tk.Button(text='Presione para procesar sus datos', command=linkbudgop, bg='orange', fg='white', font=('helvetica', 9, 'bold'))
-    canvas1.create_window(200, 640, window=button1)
+    canvas1.create_window(100, 640, window=button1)
     button2 = tk.Button (root, text='Regresar al menú principal',command=regreso,bg='red4',fg='white')
-    canvas1.create_window(600, 640, window=button2)
+    canvas1.create_window(700, 640, window=button2)
+    button3 = tk.Button (root, text='Calcular la distancia óptima',command=linkbuddist,bg='red4',fg='white')
+    canvas1.create_window(350, 640, window=button3)
 def linkbudgop():
     canvas1.delete("all")
     canvas1.config(width=800,height=670)
@@ -358,9 +363,71 @@ def linkbudgop():
     label7.config(font=('helvetica', 10))
     canvas1.create_window(400, 600, window=label7)          
     button1 = tk.Button(text='Presione para procesar sus datos', command=linkbudgop, bg='orange', fg='white', font=('helvetica', 9, 'bold'))
-    canvas1.create_window(200, 640, window=button1)
+    canvas1.create_window(100, 640, window=button1)
     button2 = tk.Button (root, text='Regresar al menú principal',command=regreso,bg='red4',fg='white')
-    canvas1.create_window(600, 640, window=button2)
+    canvas1.create_window(700, 640, window=button2)
+    button3 = tk.Button (root, text='Calcular la distancia óptima',command=linkbuddist,bg='red4',fg='white')
+    canvas1.create_window(350, 640, window=button3)
+def linkbuddist():
+    canvas1.delete("all")
+    canvas1.config(width=800,height=670)
+    label = tk.Label(root, text='Distancia óptima para Link Budget')
+    label.config(font=('helvetica', 14))
+    canvas1.create_window(400, 50, window=label)
+    label0 = tk.Label(root, text=""" En este apartado se buscará proporcionar la distancia óptima para el enlace
+    que usted precisa
+    """)
+    label0.config(font=('helvetica', 10))
+    canvas1.create_window(400, 100, window=label0)
+    print(canvas1.create_window(400, 170, window=entry19))
+    label1 = tk.Label(root, text= 'Introduzca la Pérdida en el espacio libre(L_p(dbm))')
+    label1.config(font=('helvetica', 10))
+    canvas1.create_window(400, 200, window=label1)
+    print(canvas1.create_window(400, 240, window=entry26))
+    label2 = tk.Label(root, text= 'Introduzca la Frecuencia de transmisión (f(Hz))')
+    label2.config(font=('helvetica', 10))
+    canvas1.create_window(400, 270, window=label2)
+    print(canvas1.create_window(400, 310, window=entry27))   
+    button1 = tk.Button(text='Presione para procesar sus datos', command=linkbuddistop, bg='orange', fg='white', font=('helvetica', 9, 'bold'))
+    canvas1.create_window(100, 640, window=button1)
+    button2 = tk.Button (root, text='Regresar al menú principal',command=regreso,bg='red4',fg='white')
+    canvas1.create_window(700, 640, window=button2)
+    button3 = tk.Button (root, text='Calcular la distancia óptima',command=linkbudg,bg='red4',fg='white')
+    canvas1.create_window(350, 640, window=button3)
+def linkbuddistop():
+    canvas1.delete("all")
+    canvas1.config(width=800,height=670)
+    lp = float(entry26.get())
+    f = float(entry27.get())
+    lam=3*10**8/f
+    d = (lam*10**(lp/20))/4*pi
+    labell = tk.Label(root, text= ('d= ',d,'km'))
+    labell.config(font=('helvetica', 14))
+    canvas1.create_window(400, 620, window=labell)
+    label = tk.Label(root, text='Link Budget')
+    label.config(font=('helvetica', 14))
+    canvas1.create_window(400, 50, window=label)
+    label0 = tk.Label(root, text=""" En este apartado se buscará proporcionar la distancia óptima para el enlace
+    que usted precisa
+    """)
+    label0.config(font=('helvetica', 10))
+    canvas1.create_window(400, 100, window=label0)
+    print(canvas1.create_window(400, 170, window=entry19))
+    label1 = tk.Label(root, text= 'Introduzca la Pérdida en el espacio libre(L_p(dbm))')
+    label1.config(font=('helvetica', 10))
+    canvas1.create_window(400, 200, window=label1)
+    print(canvas1.create_window(400, 240, window=entry26))
+    label2 = tk.Label(root, text= 'Introduzca la Frecuencia de transmisión (f(Hz))')
+    label2.config(font=('helvetica', 10))
+    canvas1.create_window(400, 270, window=label2)
+    print(canvas1.create_window(400, 310, window=entry27))   
+    button1 = tk.Button(text='Presione para procesar sus datos', command=linkbuddistop, bg='orange', fg='white', font=('helvetica', 9, 'bold'))
+    canvas1.create_window(100, 640, window=button1)
+    button2 = tk.Button (root, text='Regresar al menú principal',command=regreso,bg='red4',fg='white')
+    canvas1.create_window(700, 640, window=button2)
+    button3 = tk.Button (root, text='Calcular el link budget',command=linkbudg,bg='red4',fg='white')
+    canvas1.create_window(350, 640, window=button3)
+def linkbuddistop():
 def opmenu ():   
     x1 = int(entry1.get())
     if x1==int(1):
