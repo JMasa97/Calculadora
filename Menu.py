@@ -240,9 +240,12 @@ def lsmithop():
     canvas1.config(width=800,height=750)
     coeff=(Zcarac-1)/(Zcarac+1)
     swr=(1+abs(coeff))/(1-abs(coeff))
-    labell = tk.Label(root, text= ('P_out= ',po,'dbm'))
-    labell.config(font=('helvetica', 14))
-        canvas1.create_window(400, 620, window=labell)
+    label0 = tk.Label(root, text= ('Coefficiente de reflexión= ',coeff,'db'))
+    label0.config(font=('helvetica', 14))
+    canvas1.create_window(400, 620, window=label0)
+    label0l = tk.Label(root, text= ('SWR= ',swr,'db'))
+    label0l.config(font=('helvetica', 14))
+    canvas1.create_window(400, 620, window=label0l)
     label = tk.Label(root, text='Carta de Smith')
     label.config(font=('helvetica', 14))
     canvas1.create_window(400, 50, window=label)
@@ -432,7 +435,6 @@ def linkbuddistop():
     canvas1.create_window(700, 640, window=button2)
     button3 = tk.Button (root, text='Calcular el link budget',command=linkbudg,bg='red4',fg='white')
     canvas1.create_window(350, 640, window=button3)
-def linkbuddistop():
 def opmenu ():   
     x1 = int(entry1.get())
     if x1==int(1):
